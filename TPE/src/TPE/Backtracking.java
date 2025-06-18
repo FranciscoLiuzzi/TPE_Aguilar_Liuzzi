@@ -3,43 +3,58 @@ package TPE;
 import java.util.ArrayList;
 
 public class Backtracking {
-    private ArrayList<Maquina> BestSolucion;
-    private ArrayList<Maquina> Maquinas;
+    private ArrayList<Maquina> bestSolucion;
+    private ArrayList<Maquina> maquinas;
+    private int iterations;
 
     public Backtracking(ArrayList<Maquina> maquinas) {
-        this.BestSolucion = new ArrayList();
-        this.Maquinas = maquinas;
+        this.bestSolucion = new ArrayList();
+        this.maquinas = maquinas;
+        this.iterations = 0;
     }
 
     public ArrayList<Maquina> TPE(int Objetivo){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
         Backtrack(Objetivo, SolucionTemporal);
-
-        return new ArrayList<>(BestSolucion);
+       
+        System.out.println(iterations);
+        return new ArrayList<>(bestSolucion);
     }
 
+    
+    /*
+     * <<Breve explicación de la estrategia de resolución. Por ejemplo:
+     * - Cómo se genera el árbol de exploración.
+     * - Cuáles son los estados finales y estados solución.
+     * - Posibles podas.
+     * - etc.>>
+     */
     public void Backtrack(int Objetivo, ArrayList<Maquina> SolucionTemporal){
+    	this.iterations++;
+    	
         //CHECK ESTADO FINAL
         if (Objetivo == 0) {
             //CHECK SOLUCION
-            if (BestSolucion.isEmpty() || SolucionTemporal.size() < BestSolucion.size()) {
-                BestSolucion = new ArrayList(SolucionTemporal);
+            if (bestSolucion.isEmpty() || SolucionTemporal.size() < bestSolucion.size()) {
+                bestSolucion = new ArrayList(SolucionTemporal);
             }
             return;
         }
 
         //PODA
-        //if (SolucionTemporal.size() >= BestSolucion.size()) {
-        //    return;
-        //}
+        if (!bestSolucion.isEmpty()) {
+        	if (SolucionTemporal.size() >= bestSolucion.size()) {
+                return;
+            }
+        }
 
         //BACKTRACK
-        for (int i = 0; i < Maquinas.size(); i++) {
+        for (int i = 0; i < maquinas.size(); i++) {
             //MiniPODA
-            if (Maquinas.get(i).getPiezas() <= Objetivo) {
-                SolucionTemporal.add(Maquinas.get(i));
+            if (maquinas.get(i).getPiezas() <= Objetivo) {
+                SolucionTemporal.add(maquinas.get(i));
 
-                Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal);
+                Backtrack(Objetivo - maquinas.get(i).getPiezas(), SolucionTemporal);
 
                 SolucionTemporal.remove(SolucionTemporal.size() - 1);
             }
@@ -47,10 +62,20 @@ public class Backtracking {
         return;
     }
     
-    public ArrayList<Maquina> Greedy(){
+    
+    /*
+     * <<Breve explicación de la estrategia de resolución. Por ejemplo:
+     * - Cómo se genera el árbol de exploración.
+     * - Cuáles son los estados finales y estados solución.
+     * - Posibles podas.
+     * - etc.>>
+     */
+    public ArrayList<Maquina> Greedy(int Objetivo){
         ArrayList<Maquina> Solucion = new ArrayList();
 
-        Maquinas.sort(null);
+        maquinas.sort(null);
+        
+        
 
         return Solucion;
     }
