@@ -37,10 +37,11 @@ public class Test {
 			e.printStackTrace();
 		}
 
-        Backtracking b = new Backtracking();
+        TPE t = new TPE();
 
-        System.out.println(b.TPE(objetivo, maquinas));
-        System.out.println(b.Greedy(objetivo, maquinas));
+        t.Backtracking(objetivo, maquinas);
+        System.out.println("__________________________");
+        t.Greedy(objetivo, maquinas);
         }
     
 }

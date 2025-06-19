@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Backtracking {
+public class TPE {
     private ArrayList<Maquina> bestSolucion;
     private int iterations;
 
-    public Backtracking() {
+    public TPE() {
         this.bestSolucion = new ArrayList();
         this.iterations = 0;
     }
 
-    public ArrayList<Maquina> TPE(int Objetivo, ArrayList<Maquina> Maquinas){
+    public ArrayList<Maquina> Backtracking(int Objetivo, ArrayList<Maquina> Maquinas){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
         Backtrack(Objetivo, SolucionTemporal, Maquinas);
-       
-        System.out.println(iterations);
+        
+        System.out.println("Backtracking");
+        System.out.println("Secuencia de maquinas: " + bestSolucion);
+        System.out.println("Cantidad de piezas producidas: " + Objetivo);
+        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + bestSolucion.size());
+        System.out.println("Metrica de analisis - cantidad de estados generados: " + iterations);
         return new ArrayList<>(bestSolucion);
     }
 
@@ -103,13 +107,21 @@ public class Backtracking {
     			candidatos++;
     			
     			if (remaining == 0) {
-    				System.out.println("Candidatos evaluados: " + candidatos);
+    				System.out.println("Greedy");
+    		        System.out.println("Secuencia de maquinas: " + Solucion);
+    		        System.out.println("Cantidad de piezas producidas: " + Objetivo);
+    		        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
+    		        System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
     				return Solucion;
     			}
     		}
     	}
     	
-    	System.out.println("Candidatos evaluados: " + candidatos);
+    	System.out.println("Greedy");
+        System.out.println("Secuencia de maquinas: " + Solucion);
+        System.out.println("Cantidad de piezas producidas: " + Objetivo);
+        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
+        System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
     	
         if (remaining == 0) {
         	return Solucion;
