@@ -2,6 +2,7 @@ package TPE;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Backtracking {
     private ArrayList<Maquina> bestSolucion;
@@ -84,6 +85,14 @@ public class Backtracking {
     por lo tanto puede no encontrar la solución óptima, pero sí una bastante buena en poco tiempo.*/
     public ArrayList<Maquina> Greedy(int Objetivo, ArrayList<Maquina> maquinas){
     	
+    	Collections.sort(maquinas, new Comparator<Maquina>() {
+            @Override
+            public int compare(Maquina m1, Maquina m2) {
+                return Integer.compare(m2.getPiezas(), m1.getPiezas());
+            }
+        });
+    	
+    	int candidatos = 0;
     	ArrayList<Maquina> Solucion = new ArrayList();
     	int remaining = Objetivo;
     	
@@ -91,12 +100,16 @@ public class Backtracking {
     		while (maquina.getPiezas() <= remaining) {
     			Solucion.add(maquina);
     			remaining = remaining - maquina.getPiezas();
+    			candidatos++;
     			
     			if (remaining == 0) {
+    				System.out.println("Candidatos evaluados: " + candidatos);
     				return Solucion;
     			}
     		}
     	}
+    	
+    	System.out.println("Candidatos evaluados: " + candidatos);
     	
         if (remaining == 0) {
         	return Solucion;
