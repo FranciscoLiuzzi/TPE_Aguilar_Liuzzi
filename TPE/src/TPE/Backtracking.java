@@ -1,21 +1,20 @@
 package TPE;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Backtracking {
     private ArrayList<Maquina> bestSolucion;
-    private ArrayList<Maquina> maquinas;
     private int iterations;
 
-    public Backtracking(ArrayList<Maquina> maquinas) {
+    public Backtracking() {
         this.bestSolucion = new ArrayList();
-        this.maquinas = maquinas;
         this.iterations = 0;
     }
 
-    public ArrayList<Maquina> TPE(int Objetivo){
+    public ArrayList<Maquina> TPE(int Objetivo, ArrayList<Maquina> Maquinas){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
-        Backtrack(Objetivo, SolucionTemporal);
+        Backtrack(Objetivo, SolucionTemporal, Maquinas);
        
         System.out.println(iterations);
         return new ArrayList<>(bestSolucion);
@@ -23,13 +22,20 @@ public class Backtracking {
 
     
     /*
-     * <<Breve explicación de la estrategia de resolución. Por ejemplo:
-     * - Cómo se genera el árbol de exploración.
-     * - Cuáles son los estados finales y estados solución.
-     * - Posibles podas.
-     * - etc.>>
-     */
-    public void Backtrack(int Objetivo, ArrayList<Maquina> SolucionTemporal){
+    <<Breve explicación de la estrategia de resolución. Por ejemplo:
+    Cómo se genera el árbol de exploración:
+    En cada paso del algoritmo se prueba usar cualquiera de las máquinas disponibles.
+    Esto genera distintas combinaciones posibles (ramas del árbol), y en cada nivel se suma una máquina a la secuencia.*
+    Cuáles son los estados finales y estados solución:
+    Un estado final es cuando el objetivo llega a 0 (es decir, se completó la producción).
+    Un estado es solución si además de llegar a 0, lo hizo usando la menor cantidad de máquinas posible.*
+    Posibles podas:
+    Si ya hay una solución guardada y la actual usa igual o más máquinas, se corta ese camino (poda por cantidad).
+    También se evita probar máquinas que ya de entrada producen más que lo que falta para completar el objetivo.*
+    Conclusion:
+    El algoritmo explora todas las combinaciones válidas pero trata de optimizar el recorrido usando podas,
+    buscando siempre la solución más corta en cantidad de puestas en marcha.*/
+    public void Backtrack(int Objetivo, ArrayList<Maquina> SolucionTemporal, ArrayList<Maquina> Maquinas){
     	this.iterations++;
     	
         //CHECK ESTADO FINAL
@@ -49,12 +55,12 @@ public class Backtracking {
         }
 
         //BACKTRACK
-        for (int i = 0; i < maquinas.size(); i++) {
+        for (int i = 0; i < Maquinas.size(); i++) {
             //MiniPODA
-            if (maquinas.get(i).getPiezas() <= Objetivo) {
-                SolucionTemporal.add(maquinas.get(i));
+            if (Maquinas.get(i).getPiezas() <= Objetivo) {
+                SolucionTemporal.add(Maquinas.get(i));
 
-                Backtrack(Objetivo - maquinas.get(i).getPiezas(), SolucionTemporal);
+                Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas);
 
                 SolucionTemporal.remove(SolucionTemporal.size() - 1);
             }
@@ -64,19 +70,39 @@ public class Backtracking {
     
     
     /*
-     * <<Breve explicación de la estrategia de resolución. Por ejemplo:
-     * - Cómo se genera el árbol de exploración.
-     * - Cuáles son los estados finales y estados solución.
-     * - Posibles podas.
-     * - etc.>>
-     */
-    public ArrayList<Maquina> Greedy(int Objetivo){
-        ArrayList<Maquina> Solucion = new ArrayList();
-
-        maquinas.sort(null);
-        
-        
-
-        return Solucion;
+    <<Breve explicación de la estrategia de resolución.*
+    Cuáles son los candidatos:
+    Las máquinas disponibles en la lista original (todas).*
+    Estrategia de selección de candidatos:
+    Se ordenan de mayor a menor según la cantidad de piezas que producen,
+    y se elige siempre la que más piezas aporta sin pasarse del objetivo restante.*
+    Consideraciones respecto a encontrar o no solución:
+    Si no se puede elegir ninguna máquina que encaje con lo que falta producir, se corta el algoritmo.
+    En ese caso, se considera que no hay una solución posible con Greedy.*
+    Conclusion:
+    Es una estrategia rápida que no prueba todas las combinaciones,
+    por lo tanto puede no encontrar la solución óptima, pero sí una bastante buena en poco tiempo.*/
+    public ArrayList<Maquina> Greedy(int Objetivo, ArrayList<Maquina> maquinas){
+    	
+    	ArrayList<Maquina> Solucion = new ArrayList();
+    	int remaining = Objetivo;
+    	
+    	for (Maquina maquina : maquinas) {
+    		while (maquina.getPiezas() <= remaining) {
+    			Solucion.add(maquina);
+    			remaining = remaining - maquina.getPiezas();
+    			
+    			if (remaining == 0) {
+    				return Solucion;
+    			}
+    		}
+    	}
+    	
+        if (remaining == 0) {
+        	return Solucion;
+        } else {
+        	System.out.println("No se pudo encontrar solucion");
+        	return null;
+        }
     }
 }

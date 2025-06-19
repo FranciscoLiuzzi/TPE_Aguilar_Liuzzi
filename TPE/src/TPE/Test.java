@@ -12,18 +12,12 @@ public class Test {
         ArrayList<Maquina> maquinas = new ArrayList();
         int objetivo = 0;
         
-        ///////////////////////////////////////////////////////////
-        
-        String filePath = "src/resources/texto.txt"; // Path to your input file
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            // Read target (first line)
+        String ruta = "src/resources/texto.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(ruta))) {
             String line = reader.readLine();
             if (line != null) {
                 objetivo = Integer.parseInt(line.trim());
             }
-            
-            // Read machines (subsequent lines)
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (!line.isEmpty()) {
@@ -37,18 +31,16 @@ public class Test {
                 }
             }
         } catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+        	System.out.println();
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-            
-            ////////////////////////////////////////////////
 
-        Backtracking b = new Backtracking(maquinas);
+        Backtracking b = new Backtracking();
 
-        System.out.println(b.TPE(objetivo));
+        System.out.println(b.TPE(objetivo, maquinas));
+        System.out.println(b.Greedy(objetivo, maquinas));
         }
     
 }
