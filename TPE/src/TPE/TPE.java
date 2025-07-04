@@ -36,7 +36,8 @@ public class TPE {
     Un estado es solución si además de llegar a 0, lo hizo usando la menor cantidad de máquinas posible.*
     Posibles podas:
     Si ya hay una solución guardada y la actual usa igual o más máquinas, se corta ese camino (poda por cantidad).
-    También se evita probar máquinas que ya de entrada producen más que lo que falta para completar el objetivo.*
+    También se evita probar máquinas que ya de entrada producen más que lo que falta para completar el objetivo.
+    Se utiliza un indice para evitar combinaciones que son en escencia la misma en distinto orden de activacion*
     Conclusion:
     El algoritmo explora todas las combinaciones válidas pero trata de optimizar el recorrido usando podas,
     buscando siempre la solución más corta en cantidad de puestas en marcha.*/
@@ -91,38 +92,11 @@ public class TPE {
             }
         });
     	
-    	int candidatos = 0;
-    	ArrayList<Maquina> Solucion = new ArrayList();
-    	int remaining = Objetivo;
-    	
-    	for (Maquina maquina : maquinas) {
-    		while (maquina.getPiezas() <= remaining) {
-    			Solucion.add(maquina);
-    			remaining = remaining - maquina.getPiezas();
-    			candidatos++;
-    			
-    			if (remaining == 0) {
-    				System.out.println("Greedy");
-    		        System.out.println("Secuencia de maquinas: " + Solucion);
-    		        System.out.println("Cantidad de piezas producidas: " + Objetivo);
-    		        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
-    		        System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
-    				return Solucion;
-    			}
-    		}
-    	}
     	
     	System.out.println("Greedy");
         System.out.println("Secuencia de maquinas: " + Solucion);
         System.out.println("Cantidad de piezas producidas: " + Objetivo);
         System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
         System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
-    	
-        if (remaining == 0) {
-        	return Solucion;
-        } else {
-        	System.out.println("No se pudo encontrar solucion");
-        	return null;
-        }
     }
 }
