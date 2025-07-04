@@ -12,7 +12,7 @@ public class Test {
         ArrayList<Maquina> maquinas = new ArrayList();
         int objetivo = 0;
         
-        String ruta = "src/resources/Caso1.txt";
+        String ruta = "src/resources/Caso3.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(ruta))) {
             String line = reader.readLine();
             if (line != null) {
@@ -43,5 +43,4 @@ public class Test {
         System.out.println("__________________________");
         t.Greedy(objetivo, maquinas);
         }
-    
 }

@@ -92,11 +92,44 @@ public class TPE {
             }
         });
     	
+    	int candidatos = 0;
+    	ArrayList<Maquina> Solucion = new ArrayList();
+    	int remaining = Objetivo;
+    	
+    	while (remaining > 0) {
+    		Maquina bestCandidato = null;
+    		int bestPiezas = 0;
+    		
+    		for (Maquina m : maquinas) {
+    			candidatos++;
+    			if ((m.getPiezas() <= remaining)&&(m.getPiezas() > bestPiezas)) {
+    				bestCandidato = m;
+    				bestPiezas = m.getPiezas();
+    			}
+    		}
+    		
+    		if (bestCandidato == null) {
+    			break;
+    		}
+    		
+    		int n = remaining / bestCandidato.getPiezas();
+    		for (int i = 0; i < n; i++) {
+    			Solucion.add(bestCandidato);
+    			remaining = remaining - bestCandidato.getPiezas();
+    		}
+    	}
     	
     	System.out.println("Greedy");
-        System.out.println("Secuencia de maquinas: " + Solucion);
-        System.out.println("Cantidad de piezas producidas: " + Objetivo);
-        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
-        System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
+    	if (remaining == 0) {
+    		System.out.println("Secuencia de maquinas: " + Solucion);
+            System.out.println("Cantidad de piezas producidas: " + (Objetivo - remaining));
+            System.out.println("Cantidad de puestas en funcionamiento requeridas: " + Solucion.size());
+            System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
+    	} else {
+    		System.out.println("No hay solucion");
+            System.out.println("Metrica de analisis - cantidad de candidatos considerados: " + candidatos);
+    	}
+
+        return (remaining == 0) ? Solucion : null;
     }
 }
