@@ -15,7 +15,7 @@ public class TPE {
 
     public ArrayList<Maquina> Backtracking(int Objetivo, ArrayList<Maquina> Maquinas){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
-        Backtrack(Objetivo, SolucionTemporal, Maquinas);
+        Backtrack(Objetivo, SolucionTemporal, Maquinas, 0);
         
         System.out.println("Backtracking");
         System.out.println("Secuencia de maquinas: " + bestSolucion);
@@ -40,7 +40,7 @@ public class TPE {
     Conclusion:
     El algoritmo explora todas las combinaciones válidas pero trata de optimizar el recorrido usando podas,
     buscando siempre la solución más corta en cantidad de puestas en marcha.*/
-    public void Backtrack(int Objetivo, ArrayList<Maquina> SolucionTemporal, ArrayList<Maquina> Maquinas){
+    public void Backtrack(int Objetivo, ArrayList<Maquina> SolucionTemporal, ArrayList<Maquina> Maquinas, int index){
     	this.iterations++;
     	
         //CHECK ESTADO FINAL
@@ -54,42 +54,17 @@ public class TPE {
             if (!bestSolucion.isEmpty()&&(SolucionTemporal.size() >= bestSolucion.size())) {
             } else {
             //BACKTRACK
-            	for (int i = 0; i < Maquinas.size(); i++) {
+            	for (int i = index; i < Maquinas.size(); i++) {
                     //MiniPODA
                     if (Maquinas.get(i).getPiezas() <= Objetivo) {
                         SolucionTemporal.add(Maquinas.get(i));
 
-                        Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas);
+                        Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas, i);
 
                         SolucionTemporal.remove(SolucionTemporal.size() - 1);
                     }
                 }
-            }
-        	
-        	
-        	
-//        	//PODA
-//        	boolean continua = true;
-//            if (!bestSolucion.isEmpty()) {
-//            	if (SolucionTemporal.size() >= bestSolucion.size()) {
-//            		continua = false;
-//                }
-//            }
-//
-//            //BACKTRACK
-//            if (continua == true){
-//            	for (int i = 0; i < Maquinas.size(); i++) {
-//                    //MiniPODA
-//                    if (Maquinas.get(i).getPiezas() <= Objetivo) {
-//                        SolucionTemporal.add(Maquinas.get(i));
-//
-//                        Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas);
-//
-//                        SolucionTemporal.remove(SolucionTemporal.size() - 1);
-//                    }
-//                }
-//            }
-            
+            }       
         }
     }
     
