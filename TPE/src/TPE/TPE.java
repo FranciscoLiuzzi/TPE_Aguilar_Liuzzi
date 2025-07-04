@@ -49,28 +49,29 @@ public class TPE {
             if (bestSolucion.isEmpty() || SolucionTemporal.size() < bestSolucion.size()) {
                 bestSolucion = new ArrayList(SolucionTemporal);
             }
-            return;
-        }
+        } else {
+        	//PODA
+        	boolean continua = true;
+            if (!bestSolucion.isEmpty()) {
+            	if (SolucionTemporal.size() >= bestSolucion.size()) {
+            		continua = false;
+                }
+            }
 
-        //PODA
-        if (!bestSolucion.isEmpty()) {
-        	if (SolucionTemporal.size() >= bestSolucion.size()) {
-                return;
+            //BACKTRACK
+            if (continua == true){
+            	for (int i = 0; i < Maquinas.size(); i++) {
+                    //MiniPODA
+                    if (Maquinas.get(i).getPiezas() <= Objetivo) {
+                        SolucionTemporal.add(Maquinas.get(i));
+
+                        Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas);
+
+                        SolucionTemporal.remove(SolucionTemporal.size() - 1);
+                    }
+                }
             }
         }
-
-        //BACKTRACK
-        for (int i = 0; i < Maquinas.size(); i++) {
-            //MiniPODA
-            if (Maquinas.get(i).getPiezas() <= Objetivo) {
-                SolucionTemporal.add(Maquinas.get(i));
-
-                Backtrack(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas);
-
-                SolucionTemporal.remove(SolucionTemporal.size() - 1);
-            }
-        }
-        return;
     }
     
     
