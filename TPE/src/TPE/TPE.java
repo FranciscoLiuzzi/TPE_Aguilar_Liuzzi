@@ -16,7 +16,6 @@ public class TPE {
     public ArrayList<Maquina> Backtracking(int Objetivo, ArrayList<Maquina> Maquinas){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
         Backtrack(Objetivo, SolucionTemporal, Maquinas, 0);
-        //Backtrack2(Objetivo, SolucionTemporal, Maquinas, 0, 0);
         
         System.out.println("Backtracking");
         System.out.println("Secuencia de maquinas: " + bestSolucion);
@@ -53,9 +52,8 @@ public class TPE {
             }
         } else {
         	//PODA
-            if (!bestSolucion.isEmpty()&&(SolucionTemporal.size() >= bestSolucion.size())) {
-            } else {
-            //BACKTRACK
+            if (bestSolucion.isEmpty() || (SolucionTemporal.size() < bestSolucion.size())) {
+            	//BACKTRACK
             	for (int i = index; i < Maquinas.size(); i++) {
                     //MiniPODA
                     if (Maquinas.get(i).getPiezas() <= Objetivo) {
@@ -66,51 +64,9 @@ public class TPE {
                         SolucionTemporal.remove(SolucionTemporal.size() - 1);
                     }
                 }
-            }       
+            }     
         }
     }
-    
-    public void Backtrack2(int Objetivo, ArrayList<Maquina> SolucionTemporal, ArrayList<Maquina> Maquinas, int index, int PiezasTemporal){
-    	this.iterations++;
-    	
-    	//PODA
-    	if (!bestSolucion.isEmpty() && SolucionTemporal.size() >= bestSolucion.size()) {
-            return;
-        } else {
-        	
-        	//CHECK ESTADO FINAL
-            if (Objetivo == 0) {
-                //CHECK SOLUCION
-                if (bestSolucion.isEmpty() || SolucionTemporal.size() < bestSolucion.size()) {
-                    bestSolucion = new ArrayList(SolucionTemporal);
-                }
-            } else {
-            	
-            	//CHECK SI VALE LA PENA SEGUIR BUSCANDO
-            	int maxPosible = PiezasTemporal;
-                for (int i = index; i < Maquinas.size(); i++) {
-                    maxPosible += Maquinas.get(i).getPiezas() * 
-                                  ((Objetivo - PiezasTemporal) / Maquinas.get(i).getPiezas());
-                }
-                if (maxPosible < Objetivo) {
-                    return;
-                } else {
-                	//BACKTRACK
-                    for (int i = index; i < Maquinas.size(); i++) {
-                    	//MiniPODA
-                        if (Maquinas.get(i).getPiezas() <= Objetivo) {
-                        	SolucionTemporal.add(Maquinas.get(i));
-
-                            Backtrack2(Objetivo - Maquinas.get(i).getPiezas(), SolucionTemporal, Maquinas, i, PiezasTemporal + Maquinas.get(i).getPiezas());
-
-                            SolucionTemporal.remove(SolucionTemporal.size() - 1);
-                        }
-                    }
-                }
-            }       
-        }
-    }
-    
     
     /*
     <<Breve explicación de la estrategia de resolución.*
