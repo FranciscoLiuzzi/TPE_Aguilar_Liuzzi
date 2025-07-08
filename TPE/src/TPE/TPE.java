@@ -15,8 +15,8 @@ public class TPE {
 
     public ArrayList<Maquina> Backtracking(int Objetivo, ArrayList<Maquina> Maquinas){
         ArrayList<Maquina> SolucionTemporal = new ArrayList();
-        //Backtrack(Objetivo, SolucionTemporal, Maquinas, 0);
-        Backtrack2(Objetivo, SolucionTemporal, Maquinas, 0, 0);
+        Backtrack(Objetivo, SolucionTemporal, Maquinas, 0);
+        //Backtrack2(Objetivo, SolucionTemporal, Maquinas, 0, 0);
         
         System.out.println("Backtracking");
         System.out.println("Secuencia de maquinas: " + bestSolucion);
